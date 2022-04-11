@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useRef, useState, useMemo } from 'react';
 import { BackHandler, Dimensions, StyleSheet, ViewStyle } from 'react-native';
 
 import Animated, {
@@ -107,6 +107,7 @@ export const OverlayProvider = <
     OverlayReactions,
     OverlayReactionsAvatar,
     value,
+    MessageOverlay: MessageOverlayFromProp,
   } = props;
 
   const attachmentPickerProps = {
@@ -194,6 +195,13 @@ export const OverlayProvider = <
     translucentStatusBar,
   };
 
+  /**
+   * Overwrite the MessageOverlay component if possible.
+   */
+  const MessageOverlayComponent = useMemo(() => {
+    return MessageOverlayFromProp ?? MessageOverlay;
+  }, [])
+
   if (loadingTranslators) return null;
 
   return (
@@ -211,7 +219,7 @@ export const OverlayProvider = <
                   <OverlayBackdrop style={[StyleSheet.absoluteFill, { height, width }]} />
                 </Animated.View>
                 {overlay === 'message' && (
-                  <MessageOverlay<StreamChatGenerics>
+                  <MessageOverlayComponent<StreamChatGenerics>
                     MessageActionList={MessageActionList}
                     MessageActionListItem={MessageActionListItem}
                     messageTextNumberOfLines={messageTextNumberOfLines}

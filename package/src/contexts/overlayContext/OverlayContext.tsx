@@ -14,6 +14,7 @@ import type { MessageOverlayContextValue } from '../messageOverlayContext/Messag
 import type { DeepPartial } from '../themeContext/ThemeContext';
 import type { Theme } from '../themeContext/utils/theme';
 import { getDisplayName } from '../utils/getDisplayName';
+import type { MessageOverlayProps } from 'stream-chat-react-native';
 
 export type Overlay = 'alert' | 'gallery' | 'message' | 'none';
 
@@ -71,6 +72,10 @@ export type OverlayProviderProps<
     numberOfImageGalleryGridColumns?: number;
     openPicker?: (ref: React.RefObject<BottomSheetMethods>) => void;
     value?: Partial<OverlayContextValue>;
+    /**
+     * UI component for the whole MessageOverlay component (displayed when long pressing a message)
+     */
+    MessageOverlay?: React.ComponentType<MessageOverlayProps<StreamChatGenerics>>
   };
 
 export const useOverlayContext = () => useContext(OverlayContext);
